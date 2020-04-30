@@ -269,7 +269,7 @@ RUN cd / && git clone https://github.com/sctplab/usrsctp.git && cd /usrsctp && \
 
 
 RUN cd / && git clone https://github.com/meetecho/janus-gateway.git && cd /janus-gateway && \
-    git checkout refs/tags/v0.9.2 && \
+    git checkout refs/tags/v0.9.3 && \
     sh autogen.sh &&  \
     PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
     --enable-post-processing \
@@ -312,6 +312,21 @@ SHELL ["/bin/bash", "-l", "-euxo", "pipefail", "-c"]
 RUN node -v
 RUN npm -v
 
+# Copy SSL certificate
+COPY ssl/nginx-selfsigned.crt /usr/local/nginx/ssl/nginx-selfsigned.crt
+COPY ssl/nginx-selfsigned.key /usr/local/nginx/ssl/nginx-selfsigned.key
+COPY ssl/nginx-dhparam.pem /usr/local/nginx/ssl/nginx-dhparam.pem
+
+# Change janus config
+COPY etc/janus/janus.jcfg /usr/local/etc/janus/janus.jcfg
+COPY etc/janus/janus.transport.websockets.jcfg /usr/local/etc/janus/janus.transport.websockets.jcfg
+
+# Change demo http to WebSocket
+RUN sed -i 's/server = "http\:\/\/.*janus/server = "ws\:\/\/" \+ window\.location\.hostname \+ "\:8188/' /usr/local/share/janus/demos/*.js
+RUN sed -i 's/server = "https\:\/\/.*janus/server = "wss\:\/\/" \+ window\.location\.hostname \+ "\:8989/' /usr/local/share/janus/demos/*.js
+
+RUN sed -i 's/server = "http\:\/\/.*admin/server = "ws\:\/\/" \+ window\.location\.hostname \+ "\:7188/' /usr/local/share/janus/demos/admin.js
+RUN sed -i 's/server = "https\:\/\/.*admin/server = "wss\:\/\/" \+ window\.location\.hostname \+ "\:7989/' /usr/local/share/janus/demos/admin.js
 
 
 CMD nginx && janus

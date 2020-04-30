@@ -16,7 +16,7 @@ run:
 	@docker run --net=host --name="janus" -it -t atyenoria/$(TEMPLATE_NAME)
 
 run-mac: 
-	@docker run -p 80:80 -p 8088:8088 -p 8188:8188 --name="janus" -it -t atyenoria/$(TEMPLATE_NAME)
+	@docker run -p 443:443 -p 8088:8088 -p 8188:8188 -p 8989:8989 -p 7188:7188 -p 7989:7989 --name="janus" -it -t atyenoria/$(TEMPLATE_NAME)
 
 run-hide: 
 	@docker run --net=host --name="janus" -it -t atyenoria/$(TEMPLATE_NAME) >> /dev/null
