@@ -25,7 +25,7 @@ https://www.useloom.com/share/325799006d6f4b64a6ce0662ca3f1d57
 - nvm + node.js LTS v10.16.0
 - certbot for let's encyrpt ssl setting
 - boringssl stable https://boringssl.googlesource.com/boringssl/+/chromium-stable 
-- libnice v0.1.14 https://github.com/libnice/libnice/releases/tag/0.1.14 
+- libnice v0.1.16 https://github.com/libnice/libnice/releases/tag/0.1.16 
 - golang 1.7.5 for building boringssl
 - janus v0.9.2, enable all janus plugins(like videoroom, streaming, audiobridge...etc)
 - libnice from the latest gitlab https://gitlab.freedesktop.org/libnice/libnice  (removing global lock for improving janus gateway)
