@@ -1,7 +1,5 @@
 FROM buildpack-deps:stretch
 
-RUN sed -i 's/archive.ubuntu.com/mirror.aarnet.edu.au\/pub\/ubuntu\/archive/g' /etc/apt/sources.list
-
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get -y update && apt-get install -y libmicrohttpd-dev \
     libjansson-dev \
@@ -266,8 +264,17 @@ RUN cd / && git clone https://github.com/sctplab/usrsctp.git && cd /usrsctp && \
     ./configure && \
     make && make install
 
+## remove libmicrohttpd10
+RUN apt-get remove -y libmicrohttpd-dev
 
+# Change debian source from stretch to buster
+RUN sed -i 's/stretch/buster/g' /etc/apt/sources.list
 
+# reinstall libmicrohttpd-dev 
+RUN apt-get -y update && apt-get install libmicrohttpd-dev -y
+
+# Change debian source back from buster to stretch
+RUN sed -i 's/buster/stretch/g' /etc/apt/sources.list
 
 RUN cd / && git clone https://github.com/meetecho/janus-gateway.git && cd /janus-gateway && \
     git checkout refs/tags/v0.9.3 && \
@@ -276,6 +283,7 @@ RUN cd / && git clone https://github.com/meetecho/janus-gateway.git && cd /janus
     --enable-post-processing \
     --enable-boringssl \
     --enable-data-channels \
+    --enable-rest \
     --disable-rabbitmq \
     --disable-mqtt \
     --disable-unix-sockets \
@@ -320,15 +328,13 @@ COPY ssl/nginx-dhparam.pem /usr/local/nginx/ssl/nginx-dhparam.pem
 
 # Change janus config
 COPY etc/janus/janus.jcfg /usr/local/etc/janus/janus.jcfg
+COPY etc/janus/janus.transport.http.jcfg /usr/local/etc/janus/janus.transport.http.jcfg
 COPY etc/janus/janus.transport.websockets.jcfg /usr/local/etc/janus/janus.transport.websockets.jcfg
 
-# Change demo http to WebSocket
+# Change demo REST(HTTP/HTTPS) to WebSocket 
+# *** Note ***  Admin/Monitor still have to relay on REST NOT WSS
 RUN sed -i 's/server = "http\:\/\/.*janus/server = "ws\:\/\/" \+ window\.location\.hostname \+ "\:8188/' /usr/local/share/janus/demos/*.js
 RUN sed -i 's/server = "https\:\/\/.*janus/server = "wss\:\/\/" \+ window\.location\.hostname \+ "\:8989/' /usr/local/share/janus/demos/*.js
-
-RUN sed -i 's/server = "http\:\/\/.*admin/server = "ws\:\/\/" \+ window\.location\.hostname \+ "\:7188/' /usr/local/share/janus/demos/admin.js
-RUN sed -i 's/server = "https\:\/\/.*admin/server = "wss\:\/\/" \+ window\.location\.hostname \+ "\:7989/' /usr/local/share/janus/demos/admin.js
-
 
 CMD nginx && janus
 
