@@ -205,6 +205,16 @@ media: {
 	#slowlink_threshold = 4
 	#twcc_period = 100
 	#dtls_timeout = 500
+
+	# If you need DSCP packet marking and prioritization, you can configure
+	# the 'dscp_tos' property to a specific values, and Janus will try to
+	# set it on all outgoing packets using libnice. Normally, the specs
+	# suggest to use different values depending on whether audio, video
+	# or data are used, but since all PeerConnections in Janus are bundled,
+	# we can only use one. You can refer to this document for more info:
+	# https://tools.ietf.org/html/draft-ietf-tsvwg-rtcweb-qos-18#page-6
+	# That said, DON'T TOUCH THIS IF YOU DON'T KNOW WHAT IT MEANS!
+	#dscp_tos = 46
 }
 
 # NAT-related stuff: specifically, you can configure the STUN/TURN
@@ -224,12 +234,12 @@ media: {
 # be used for gathering candidates, and enable or disable the
 # internal libnice debugging, if needed.
 nat: {
-	stun_server = "stun.voip.eutelia.it"
-	stun_port = 3478
-	nice_debug = true
+	#stun_server = "stun.voip.eutelia.it"
+	#stun_port = 3478
+	nice_debug = false
 	#full_trickle = true
 	#ice_lite = true
-	ice_tcp = true
+	#ice_tcp = true
 
 	# By default Janus tries to resolve mDNS (.local) candidates: even
 	# though this is now done asynchronously and shouldn't keep the API
@@ -248,7 +258,7 @@ nat: {
 	# such, use the option with caution and only if you know what you're doing.
 	# Make sure you keep ICE Lite disabled, though, as it's not strictly
 	# speaking a publicly reachable server, and a NAT is still involved.
-	#nat_1_1_mapping = "192.168.56.1"
+	#nat_1_1_mapping = "1.2.3.4"
 
 	# You can configure a TURN server in two different ways: specifying a
 	# statically configured TURN server, and thus provide the address of the
@@ -311,7 +321,7 @@ nat: {
 	# your machine is ready. Note that Linux distributions offer such directives.
 	# You could use the following directive in systemd: 'After=network-online.target'
 	# https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Before=
-	# ignore_unreachable_ice_server = true
+	#ignore_unreachable_ice_server = true
 }
 
 # You can choose which of the available plugins should be

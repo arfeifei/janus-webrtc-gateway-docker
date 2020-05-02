@@ -330,6 +330,7 @@ COPY ssl/nginx-dhparam.pem /usr/local/nginx/ssl/nginx-dhparam.pem
 COPY etc/janus/janus.jcfg /usr/local/etc/janus/janus.jcfg
 COPY etc/janus/janus.transport.http.jcfg /usr/local/etc/janus/janus.transport.http.jcfg
 COPY etc/janus/janus.transport.websockets.jcfg /usr/local/etc/janus/janus.transport.websockets.jcfg
+COPY etc/janus/janus.plugin.videoroom.jcfg /usr/local/etc/janus/janus.plugin.videoroom.jcfg
 
 # Change demo REST(HTTP/HTTPS) to WebSocket 
 # *** Note ***  Admin/Monitor still have to relay on REST NOT WSS

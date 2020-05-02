@@ -51,9 +51,9 @@ general: {
 }
 
 room-1234: {
-	description = "Demo Room"
+	description = "TMMIS Committee"
 	secret = "adminpwd"
-	publishers = 6
+	publishers = 10
 	bitrate = 128000
 	fir_freq = 10
 	#audiocodec = "opus"
@@ -68,10 +68,11 @@ room-1234: {
 # plain VP9 (which is good if you want to test how this indeed affect
 # what receivers will get, whether they're encoding SVC or not).
 room-5678: {
-	description = "VP9-SVC Demo Room"
+	description = "City Council Room"
 	secret = "adminpwd"
-	publishers = 6
-	bitrate = 512000
+	publishers = 30 
+	#bitrate = 512000
+	bitrate = 128000
 	fir_freq = 10
 	videocodec = "vp9"
 	video_svc = true
