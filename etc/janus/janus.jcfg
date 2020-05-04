@@ -15,7 +15,7 @@ general: {
 											# to stdout or not (default=true)
 	#log_to_file = "/path/to/janus.log"		# Whether to use a log file or not
 	debug_level = 4							# Debug/logging level, valid values are 0-7
-	#debug_timestamps = true				# Whether to show a timestamp for each log line
+	debug_timestamps = true				# Whether to show a timestamp for each log line
 	#debug_colors = false					# Whether colors should be disabled in the log
 	#debug_locks = true						# Whether to enable debugging of locks (very verbose!)
 	#log_prefix = "[janus] "				# In case you want log lines to be prefixed by some
@@ -172,8 +172,8 @@ general: {
 # Finally, by default NIST P-256 certificates are generated (see #1997),
 # but RSA generation is still supported if you set 'rsa_private_key' to 'true'.
 certificates: {
-	#cert_pem = "/path/to/certificate.pem"
-	#cert_key = "/path/to/key.pem"
+	cert_pem = "/usr/local/nginx/ssl/nginx-selfsigned.crt"
+	cert_key = "/usr/local/nginx/ssl/nginx-selfsigned.key"	
 	#cert_pwd = "secretpassphrase"
 	#dtls_accept_selfsigned = false
 	#dtls_ciphers = "your-desired-openssl-ciphers"
@@ -197,7 +197,7 @@ certificates: {
 # times, but may not work in case the RTT of the user is high: as such,
 # you should pick a reasonable trade-off (usually 2*max expected RTT).
 media: {
-	#ipv6 = true
+	ipv6 = false
 	#min_nack_queue = 500
 	#rtp_port_range = "20000-40000"
 	#dtls_mtu = 1200
@@ -226,10 +226,10 @@ media: {
 nat: {
 	stun_server = "stun.voip.eutelia.it"
 	stun_port = 3478
-	nice_debug = true
+	#nice_debug = false
 	#full_trickle = true
 	#ice_lite = true
-	ice_tcp = true
+	#ice_tcp = true
 
 	# By default Janus tries to resolve mDNS (.local) candidates: even
 	# though this is now done asynchronously and shouldn't keep the API
