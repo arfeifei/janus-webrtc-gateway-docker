@@ -277,7 +277,7 @@ RUN apt-get -y update && apt-get install libmicrohttpd-dev -y
 RUN sed -i 's/buster/stretch/g' /etc/apt/sources.list
 
 RUN cd / && git clone https://github.com/meetecho/janus-gateway.git && cd /janus-gateway && \
-    git checkout refs/tags/v0.9.3 && \
+    git checkout refs/tags/v0.9.4 && \
     sh autogen.sh &&  \
     PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
     --enable-post-processing \
