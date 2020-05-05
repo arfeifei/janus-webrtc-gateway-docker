@@ -331,6 +331,10 @@ COPY etc/janus/janus.jcfg /usr/local/etc/janus/janus.jcfg
 COPY etc/janus/janus.transport.http.jcfg /usr/local/etc/janus/janus.transport.http.jcfg
 COPY etc/janus/janus.transport.websockets.jcfg /usr/local/etc/janus/janus.transport.websockets.jcfg
 
+# Install videoroomtest module
+COPY demos/videoroomtest.html /usr/local/share/janus/demos/videoroomtest.html
+COPY demos/videoroomtest.js /usr/local/share/janus/demos/videoroomtest.js
+
 # Change demo REST(HTTP/HTTPS) to WebSocket 
 # *** Note ***  Admin/Monitor still have to relay on REST NOT WSS
 RUN sed -i 's/server = "http\:\/\/.*janus/server = "ws\:\/\/" \+ window\.location\.hostname \+ "\:8188/' /usr/local/share/janus/demos/*.js
@@ -345,3 +349,10 @@ CMD nginx && janus
 #     ./configure && \
 #     make && \
 #     make install
+
+# Install jangouts
+RUN npm install -g bower gulp
+RUN cd / && git clone https://github.com/arfeifei/jangouts.git && cd /jangouts && \
+    npm install && bower install --allow-root && gulp build && \
+    cp src/config.json dist && \
+    cp -r dist /usr/local/share/janus/demos/jangouts
