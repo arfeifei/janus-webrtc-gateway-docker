@@ -71,10 +71,10 @@ RUN LAME="3.100" && apt-get install -y nasm  && cd ~/ffmpeg_sources && \
     make && \
     make install
 
-RUN X264="20181001-2245-stable" && cd ~/ffmpeg_sources && \
-    wget http://download.videolan.org/pub/x264/snapshots/x264-snapshot-$X264.tar.bz2 && \
-    tar xjvf x264-snapshot-$X264.tar.bz2 && \
-    cd x264-snapshot-$X264 && \
+RUN X264="latest" && cd ~/ffmpeg_sources && \
+    git clone https://code.videolan.org/videolan/x264.git x264-$X264 && \
+    cd x264-$X264 && \
+#    git checkout $X264 && \
     PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static --disable-opencl --disable-asm && \
     PATH="$HOME/bin:$PATH" make && \
     make install && \
