@@ -54,17 +54,14 @@ RUN VPX="v1.8.1" && cd ~/ffmpeg_sources && \
     make install && \
     make clean
 
-
-RUN OPUS="1.3" && cd ~/ffmpeg_sources && \
-    wget http://downloads.xiph.org/releases/opus/opus-$OPUS.tar.gz && \
-    tar xzvf opus-$OPUS.tar.gz && \
-    cd opus-$OPUS && \
-    ./configure --help && \
+RUN OPUS="v1.3.1" && cd ~/ffmpeg_sources && \
+    git clone https://github.com/xiph/opus.git opus-$OPUS &&  cd opus-$OPUS && \
+    git checkout refs/tags/$OPUS && \
+    sh ./autogen.sh && ./configure --help && \
     ./configure --prefix="$HOME/ffmpeg_build"  && \
     make && \
     make install && \
     make clean
-
 
 RUN LAME="3.100" && apt-get install -y nasm  && cd ~/ffmpeg_sources && \
     wget http://downloads.sourceforge.net/project/lame/lame/$LAME/lame-$LAME.tar.gz && \
