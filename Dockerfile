@@ -325,6 +325,7 @@ COPY ssl/nginx-dhparam.pem /usr/local/nginx/ssl/nginx-dhparam.pem
 
 # Change janus config
 COPY etc/janus/janus.jcfg /usr/local/etc/janus/janus.jcfg
+COPY etc/janus/janus.plugin.videoroom.jcfg /usr/local/etc/janus/janus.plugin.videoroom.jcfg
 COPY etc/janus/janus.transport.http.jcfg /usr/local/etc/janus/janus.transport.http.jcfg
 COPY etc/janus/janus.transport.websockets.jcfg /usr/local/etc/janus/janus.transport.websockets.jcfg
 
